@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const NAV = [
   { id: "story", label: "Our Story" },
@@ -32,28 +33,34 @@ const Nav = () => {
           <span className={`font-serif-display text-sm tracking-[0.3em] ${scrolled ? "text-foreground" : "text-white"}`}>&</span>
           <span className="font-script text-2xl md:text-3xl text-gradient-gold">Funmi</span>
         </a>
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className={`text-xs uppercase tracking-[0.2em] transition-colors hover:text-gold ${
-                scrolled ? "text-foreground/80" : "text-white/90"
-              }`}
-            >
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <button
-          onClick={() => setOpen(!open)}
-          className={`md:hidden p-2 ${scrolled ? "text-foreground" : "text-white"}`}
-          aria-label="Menu"
-        >
+        <div className="hidden md:flex items-center gap-8">
+          <nav className="flex items-center gap-8">
+            {NAV.map((n) => (
+              <a
+                key={n.id}
+                href={`#${n.id}`}
+                className={`text-xs uppercase tracking-[0.2em] transition-colors hover:text-gold ${
+                  scrolled ? "text-foreground/80" : "text-white/90"
+                }`}
+              >
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <ThemeToggle scrolled={scrolled} />
+        </div>
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle scrolled={scrolled} />
+          <button
+            onClick={() => setOpen(!open)}
+            className={`p-2 ${scrolled ? "text-foreground" : "text-white"}`}
+            aria-label="Menu"
+          >
           <div className="w-6 h-px bg-current mb-1.5" />
           <div className="w-6 h-px bg-current mb-1.5" />
           <div className="w-4 h-px bg-current ml-auto" />
-        </button>
+          </button>
+        </div>
       </div>
       {open && (
         <div className="md:hidden glass mt-3 mx-4 rounded-2xl p-6 animate-fade-up">
