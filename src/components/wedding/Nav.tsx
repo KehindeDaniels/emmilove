@@ -59,7 +59,8 @@ const Nav = () => {
           <div className="w-6 h-px bg-current mb-1.5" />
           <div className="w-6 h-px bg-current mb-1.5" />
           <div className="w-4 h-px bg-current ml-auto" />
-        </button>
+          </button>
+        </div>
       </div>
       {open && (
         <div className="md:hidden glass mt-3 mx-4 rounded-2xl p-6 animate-fade-up">
