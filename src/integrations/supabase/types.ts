@@ -14,7 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      media: {
+        Row: {
+          created_at: string
+          file_url: string
+          id: string
+          type: string
+          upload_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_url: string
+          id?: string
+          type: string
+          upload_id: string
+        }
+        Update: {
+          created_at?: string
+          file_url?: string
+          id?: string
+          type?: string
+          upload_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_upload_id_fkey"
+            columns: ["upload_id"]
+            isOneToOne: false
+            referencedRelation: "uploads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      uploads: {
+        Row: {
+          album_title: string | null
+          caption: string | null
+          created_at: string
+          id: string
+          is_anonymous: boolean | null
+          status: string
+          type: string
+          user_name: string | null
+        }
+        Insert: {
+          album_title?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean | null
+          status?: string
+          type: string
+          user_name?: string | null
+        }
+        Update: {
+          album_title?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_anonymous?: boolean | null
+          status?: string
+          type?: string
+          user_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
