@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
-const NAV = [
+type NavItem = { id: string; label: string; href?: string; pill?: boolean };
+
+const NAV: NavItem[] = [
   { id: "story", label: "Our Story" },
   { id: "proposal", label: "The Proposal" },
   { id: "details", label: "Details" },
   { id: "rsvp", label: "RSVP" },
   { id: "gallery", label: "Gallery" },
+  { id: "moments", label: "Moments", href: "/moments", pill: true },
   { id: "gift", label: "Gift" },
 ];
 
