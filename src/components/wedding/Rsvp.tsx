@@ -14,7 +14,7 @@ const Rsvp = () => {
   };
 
   return (
-    <section id="rsvp" ref={ref} className="scroll-mt-nav relative py-28 md:py-40 bg-cream overflow-hidden">
+    <section id="rsvp" ref={ref} className="scroll-mt-nav relative py-28 md:py-40 bg-cream dark:bg-background overflow-hidden">
       <div className="absolute top-1/2 -translate-y-1/2 -left-40 w-96 h-96 rounded-full blur-3xl opacity-30" style={{ background: "hsl(var(--blush))" }} />
       <div className="absolute top-1/2 -translate-y-1/2 -right-40 w-96 h-96 rounded-full blur-3xl opacity-30" style={{ background: "hsl(var(--lavender))" }} />
 
@@ -44,7 +44,7 @@ const Rsvp = () => {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full bg-white/60 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition"
+                    className="w-full bg-white/60 dark:bg-white/5 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition"
                   />
                 </div>
                 <div>
@@ -58,7 +58,7 @@ const Rsvp = () => {
                         className={`py-3 rounded-xl border transition-all uppercase tracking-[0.2em] text-xs ${
                           form.attending === v
                             ? "bg-gradient-gold text-foreground border-transparent shadow-gold"
-                            : "bg-white/60 border-border/60 text-foreground/70 hover:border-gold/60"
+                            : "bg-white/60 dark:bg-white/5 border-border/60 text-foreground/70 hover:border-gold/60"
                         }`}
                       >
                         {v === "yes" ? "Joyfully Accepts" : "Regretfully Declines"}
@@ -74,7 +74,7 @@ const Rsvp = () => {
                     max={6}
                     value={form.guests}
                     onChange={(e) => setForm({ ...form, guests: +e.target.value })}
-                    className="w-full bg-white/60 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition"
+                    className="w-full bg-white/60 dark:bg-white/5 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition"
                   />
                 </div>
                 <div>
@@ -83,7 +83,7 @@ const Rsvp = () => {
                     rows={4}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-white/60 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition resize-none"
+                    className="w-full bg-white/60 dark:bg-white/5 border border-border/60 rounded-xl px-4 py-3 font-serif-display text-lg focus:outline-none focus:ring-2 focus:ring-gold/50 transition resize-none"
                     placeholder="With love…"
                   />
                 </div>
