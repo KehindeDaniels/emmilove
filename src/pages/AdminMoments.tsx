@@ -426,6 +426,14 @@ const AdminMoments = () => {
 
                   {/* Info */}
                   <div className="p-5 flex flex-col gap-3 flex-1">
+                    {mediaCount > 4 && (
+                      <button
+                        onClick={() => setPreviewItem(it)}
+                        className="self-start text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-gold transition-colors"
+                      >
+                        View all {mediaCount} files →
+                      </button>
+                    )}
                     {it.album_title && (
                       <p className="font-serif-display text-xl text-foreground leading-tight">
                         {it.album_title}
