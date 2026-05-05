@@ -19,12 +19,12 @@ const Gift = () => {
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 text-left mb-10">
-              <div className="rounded-2xl border border-border/60 bg-white/40 p-5">
+              <div className="rounded-2xl border border-border/60 bg-white/40 dark:bg-white/5 p-5">
                 <p className="text-xs uppercase tracking-[0.25em] text-foreground/50 mb-1">Bank</p>
                 <p className="font-serif-display text-lg">Emma & Funmi</p>
                 <p className="text-sm text-muted-foreground mt-1">Account · ••• ••• ••••</p>
               </div>
-              <div className="rounded-2xl border border-border/60 bg-white/40 p-5">
+              <div className="rounded-2xl border border-border/60 bg-white/40 dark:bg-white/5 p-5">
                 <p className="text-xs uppercase tracking-[0.25em] text-foreground/50 mb-1">Mobile</p>
                 <p className="font-serif-display text-lg">Quick Transfer</p>
                 <p className="text-sm text-muted-foreground mt-1">Coming soon</p>
