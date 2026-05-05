@@ -126,6 +126,7 @@ const AdminMoments = () => {
     try {
       await call({ action: "moderate", id, status });
       setItems((prev) => prev.filter((it) => it.id !== id));
+      setPreviewItem(null);
       toast.success(status === "approved" ? "✓ Approved" : "✕ Rejected");
     } catch (e: any) {
       toast.error(e.message);
