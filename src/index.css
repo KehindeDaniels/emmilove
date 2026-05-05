@@ -49,16 +49,40 @@
     --candle: 35 90% 65%;
 
     /* Gradients */
-    --gradient-romance: linear-gradient(135deg, hsl(var(--blush) / 0.6) 0%, hsl(var(--lavender) / 0.5) 50%, hsl(var(--cream)) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(var(--gold-light)) 0%, hsl(var(--gold)) 50%, hsl(var(--gold-light)) 100%);
-    --gradient-hero-overlay: linear-gradient(180deg, hsl(340 30% 10% / 0.35) 0%, hsl(340 30% 10% / 0.55) 60%, hsl(340 30% 10% / 0.85) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.55) 0%, hsl(0 0% 100% / 0.25) 100%);
-    --gradient-candle: radial-gradient(circle at 50% 50%, hsl(var(--candle) / 0.45) 0%, transparent 70%);
+    --gradient-romance: linear-gradient(
+      135deg,
+      hsl(var(--blush) / 0.6) 0%,
+      hsl(var(--lavender) / 0.5) 50%,
+      hsl(var(--cream)) 100%
+    );
+    --gradient-gold: linear-gradient(
+      135deg,
+      hsl(var(--gold-light)) 0%,
+      hsl(var(--gold)) 50%,
+      hsl(var(--gold-light)) 100%
+    );
+    --gradient-hero-overlay: linear-gradient(
+      180deg,
+      hsl(340 30% 10% / 0.35) 0%,
+      hsl(340 30% 10% / 0.55) 60%,
+      hsl(340 30% 10% / 0.85) 100%
+    );
+    --gradient-glass: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.55) 0%,
+      hsl(0 0% 100% / 0.25) 100%
+    );
+    --gradient-candle: radial-gradient(
+      circle at 50% 50%,
+      hsl(var(--candle) / 0.45) 0%,
+      transparent 70%
+    );
 
     /* Shadows */
     --shadow-soft: 0 10px 40px -15px hsl(340 40% 50% / 0.25);
     --shadow-romance: 0 20px 60px -20px hsl(340 50% 60% / 0.4);
-    --shadow-gold: 0 0 30px hsl(var(--gold) / 0.4), 0 0 60px hsl(var(--gold) / 0.2);
+    --shadow-gold:
+      0 0 30px hsl(var(--gold) / 0.4), 0 0 60px hsl(var(--gold) / 0.2);
     --shadow-elegant: 0 30px 80px -30px hsl(340 30% 30% / 0.35);
 
     /* Transitions */
@@ -96,12 +120,16 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-weight: 300;
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4, h5 {
-    font-family: 'Cormorant Garamond', serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Cormorant Garamond", serif;
     font-weight: 500;
     letter-spacing: -0.01em;
   }
@@ -109,10 +137,10 @@
 
 @layer utilities {
   .font-serif-display {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
   }
   .font-script {
-    font-family: 'Great Vibes', cursive;
+    font-family: "Great Vibes", cursive;
   }
   .text-gold {
     color: hsl(var(--gold));
@@ -157,7 +185,11 @@
     border: 1px solid hsl(0 0% 100% / 0.08);
   }
   .dark .bg-gradient-glass {
-    background: linear-gradient(135deg, hsl(340 25% 14% / 0.6) 0%, hsl(340 25% 14% / 0.3) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(340 25% 14% / 0.6) 0%,
+      hsl(340 25% 14% / 0.3) 100%
+    );
   }
   .glass-dark {
     background: hsl(340 30% 12% / 0.4);
@@ -166,7 +198,9 @@
     border: 1px solid hsl(0 0% 100% / 0.15);
   }
   .candle-glow {
-    box-shadow: 0 0 40px hsl(var(--candle) / 0.5), 0 0 80px hsl(var(--candle) / 0.25);
+    box-shadow:
+      0 0 40px hsl(var(--candle) / 0.5),
+      0 0 80px hsl(var(--candle) / 0.25);
   }
   .scroll-mt-nav {
     scroll-margin-top: 5rem;
@@ -175,50 +209,120 @@
 
 /* Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 @keyframes flicker {
-  0%, 100% { opacity: 1; filter: brightness(1); }
-  45% { opacity: 0.92; filter: brightness(1.05); }
-  55% { opacity: 0.96; filter: brightness(0.95); }
-  70% { opacity: 1; filter: brightness(1.08); }
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  45% {
+    opacity: 0.92;
+    filter: brightness(1.05);
+  }
+  55% {
+    opacity: 0.96;
+    filter: brightness(0.95);
+  }
+  70% {
+    opacity: 1;
+    filter: brightness(1.08);
+  }
 }
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes fade-in-soft {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px hsl(var(--gold) / 0.3), 0 0 40px hsl(var(--gold) / 0.15); }
-  50% { box-shadow: 0 0 30px hsl(var(--gold) / 0.55), 0 0 70px hsl(var(--gold) / 0.3); }
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px hsl(var(--gold) / 0.3),
+      0 0 40px hsl(var(--gold) / 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 30px hsl(var(--gold) / 0.55),
+      0 0 70px hsl(var(--gold) / 0.3);
+  }
 }
 @keyframes scroll-indicator {
-  0% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translateY(14px); opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
 }
 @keyframes ken-burns {
-  0% { transform: scale(1) translate(0,0); }
-  100% { transform: scale(1.12) translate(-1%, -1%); }
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.12) translate(-1%, -1%);
+  }
 }
 
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-flicker { animation: flicker 3.5s ease-in-out infinite; }
-.animate-fade-up { animation: fade-up 1s var(--transition-smooth) both; }
-.animate-fade-in-soft { animation: fade-in-soft 1.4s ease-out both; }
-.animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
-.animate-ken-burns { animation: ken-burns 18s ease-out infinite alternate; }
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-flicker {
+  animation: flicker 3.5s ease-in-out infinite;
+}
+.animate-fade-up {
+  animation: fade-up 1s var(--transition-smooth) both;
+}
+.animate-fade-in-soft {
+  animation: fade-in-soft 1.4s ease-out both;
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+.animate-ken-burns {
+  animation: ken-burns 18s ease-out infinite alternate;
+}
 
 .shimmer-text {
-  background: linear-gradient(90deg, hsl(var(--gold) / 0.4) 0%, hsl(var(--gold)) 50%, hsl(var(--gold) / 0.4) 100%);
+  background: linear-gradient(
+    90deg,
+    hsl(var(--gold) / 0.4) 0%,
+    hsl(var(--gold)) 50%,
+    hsl(var(--gold) / 0.4) 100%
+  );
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -230,7 +334,9 @@
 .reveal {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 1s var(--transition-smooth), transform 1s var(--transition-smooth);
+  transition:
+    opacity 1s var(--transition-smooth),
+    transform 1s var(--transition-smooth);
 }
 .reveal.is-visible {
   opacity: 1;
