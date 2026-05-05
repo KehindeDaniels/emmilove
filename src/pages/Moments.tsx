@@ -231,6 +231,15 @@ const Moments = () => {
                           Album · {it.media.length}
                         </div>
                       )}
+                      {it.source === "couple" && (
+                        <div
+                          className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-gold"
+                          style={{ background: "linear-gradient(135deg, #E8C786, #C9A46C)" }}
+                          title="From Emma & Funmi"
+                        >
+                          <Crown className="w-4 h-4 text-white" />
+                        </div>
+                      )}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
