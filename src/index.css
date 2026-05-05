@@ -152,6 +152,13 @@
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid hsl(0 0% 100% / 0.6);
   }
+  .dark .glass {
+    background: hsl(340 25% 14% / 0.55);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+  }
+  .dark .bg-gradient-glass {
+    background: linear-gradient(135deg, hsl(340 25% 14% / 0.6) 0%, hsl(340 25% 14% / 0.3) 100%);
+  }
   .glass-dark {
     background: hsl(340 30% 12% / 0.4);
     backdrop-filter: blur(20px) saturate(140%);
