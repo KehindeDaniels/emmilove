@@ -143,7 +143,7 @@ const Moments = () => {
         <div className="container">
           {/* Filter bar */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-8 mb-12 border-b border-border/60 pb-1">
-            {(["all", "photos", "albums", "videos"] as Filter[]).map((f) => (
+            {(["all", "ours", "photos", "albums", "videos"] as Filter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -151,7 +151,7 @@ const Moments = () => {
                   filter === f ? "text-foreground" : "text-foreground/50 hover:text-foreground/80"
                 }`}
               >
-                {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
+                {f === "all" ? "All" : f === "ours" ? "Ours 💍" : f.charAt(0).toUpperCase() + f.slice(1)}
                 {filter === f && (
                   <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-gradient-gold rounded-full" />
                 )}
