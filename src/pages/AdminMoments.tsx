@@ -54,6 +54,30 @@ const AdminMoments = () => {
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<Tab>("pending");
   const [actionId, setActionId] = useState<string | null>(null);
+  const [coupleItems, setCoupleItems] = useState<UploadRow[]>([]);
+  const [coupleOpen, setCoupleOpen] = useState(false);
+  const [previewItem, setPreviewItem] = useState<UploadRow | null>(null);
+
+  const loadCouple = async () => {
+    const { data } = await supabase
+      .from("uploads")
+      .select("id, type, user_name, is_anonymous, caption, album_title, status, created_at, media(id, file_url, type)")
+      .eq("status", "approved")
+      .eq("source", "couple" as any)
+      .order("created_at", { ascending: false });
+    if (data) setCoupleItems(data as unknown as UploadRow[]);
+  };
+
+  const deleteCouple = async (id: string) => {
+    if (!confirm("Remove this from the public gallery?")) return;
+    try {
+      await call({ action: "moderate", id, status: "rejected" });
+      setCoupleItems((prev) => prev.filter((it) => it.id !== id));
+      toast.success("Removed from gallery");
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  };
 
   const call = async (body: object) => {
     const res = await fetch(FN_URL, {
