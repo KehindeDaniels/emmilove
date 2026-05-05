@@ -85,6 +85,7 @@ const Moments = () => {
   const filtered = useMemo(() => {
     return items.filter((it) => {
       if (filter === "all") return true;
+      if (filter === "ours") return it.source === "couple";
       if (filter === "albums") return it.type === "album";
       const hasVideo = it.media?.some((m) => m.type === "video");
       const hasPhoto = it.media?.some((m) => m.type === "photo");
