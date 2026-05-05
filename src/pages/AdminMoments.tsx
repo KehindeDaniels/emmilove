@@ -521,6 +521,72 @@ const AdminMoments = () => {
           </div>
         )}
       </div>
+
+      <CoupleUploadModal
+        open={coupleOpen}
+        onClose={() => setCoupleOpen(false)}
+        onPublished={loadCouple}
+      />
+
+      {/* Full album preview overlay */}
+      {previewItem && (
+        <div className="fixed inset-0 z-[90] bg-background overflow-y-auto animate-fade-in-soft">
+          <div className="sticky top-0 z-10 glass border-b border-border/40 px-6 py-4 flex items-center justify-between">
+            <div className="min-w-0">
+              {previewItem.album_title && (
+                <p className="font-serif-display text-xl truncate">{previewItem.album_title}</p>
+              )}
+              {previewItem.caption && (
+                <p className="text-sm italic text-muted-foreground truncate">"{previewItem.caption}"</p>
+              )}
+            </div>
+            <button
+              onClick={() => setPreviewItem(null)}
+              className="p-2 rounded-full hover:bg-muted transition"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 py-8 pb-32">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
+              {previewItem.media.map((m) => (
+                <div key={m.id} className="mb-4 break-inside-avoid rounded-2xl overflow-hidden bg-muted shadow-soft">
+                  {m.type === "video" ? (
+                    <video src={m.file_url} className="w-full h-auto block" controls />
+                  ) : (
+                    <img src={m.file_url} alt="" loading="lazy" className="w-full h-auto block" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {previewItem.status === "pending" && (
+            <div className="fixed bottom-0 left-0 right-0 glass border-t border-border/40 px-6 py-4">
+              <div className="max-w-7xl mx-auto flex gap-3">
+                <button
+                  onClick={() => moderate(previewItem.id, "approved")}
+                  disabled={actionId === previewItem.id}
+                  className="flex-1 py-3 rounded-full bg-emerald-600/90 text-white text-xs uppercase tracking-[0.2em] hover:bg-emerald-500 transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
+                >
+                  {actionId === previewItem.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                  Approve
+                </button>
+                <button
+                  onClick={() => moderate(previewItem.id, "rejected")}
+                  disabled={actionId === previewItem.id}
+                  className="flex-1 py-3 rounded-full bg-rose-600/90 text-white text-xs uppercase tracking-[0.2em] hover:bg-rose-500 transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
+                >
+                  {actionId === previewItem.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <X className="w-4 h-4" />}
+                  Reject
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 };
