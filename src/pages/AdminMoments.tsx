@@ -25,6 +25,7 @@ interface MediaItem {
 interface UploadRow {
   id: string;
   type: "single" | "album";
+  source?: "guest" | "couple";
   user_name: string | null;
   is_anonymous: boolean;
   caption: string | null;
