@@ -115,8 +115,11 @@ const AdminMoments = () => {
     if (password && !authed) load();
   }, []);
   useEffect(() => {
-    if (authed) load(tab);
-  }, [tab]);
+    if (authed) {
+      load(tab);
+      loadCouple();
+    }
+  }, [tab, authed]);
 
   const moderate = async (id: string, status: "approved" | "rejected") => {
     setActionId(id);
