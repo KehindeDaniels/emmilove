@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Heart, ArrowLeft, Layers, Play } from "lucide-react";
+import { Heart, ArrowLeft, Layers, Play, Crown } from "lucide-react";
 import Nav from "@/components/wedding/Nav";
 import Footer from "@/components/wedding/Footer";
 import UploadModal from "@/components/wedding/moments/UploadModal";
