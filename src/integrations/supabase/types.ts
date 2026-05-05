@@ -53,6 +53,7 @@ export type Database = {
           created_at: string
           id: string
           is_anonymous: boolean | null
+          source: string
           status: string
           type: string
           user_name: string | null
@@ -63,6 +64,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_anonymous?: boolean | null
+          source?: string
           status?: string
           type: string
           user_name?: string | null
@@ -73,6 +75,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_anonymous?: boolean | null
+          source?: string
           status?: string
           type?: string
           user_name?: string | null

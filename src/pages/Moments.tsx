@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Heart, ArrowLeft, Layers, Play } from "lucide-react";
+import { Heart, ArrowLeft, Layers, Play, Crown } from "lucide-react";
 import Nav from "@/components/wedding/Nav";
 import Footer from "@/components/wedding/Footer";
 import UploadModal from "@/components/wedding/moments/UploadModal";
@@ -10,6 +10,7 @@ import { useReveal } from "@/hooks/use-reveal";
 interface UploadRow {
   id: string;
   type: "single" | "album";
+  source?: "guest" | "couple";
   user_name: string | null;
   is_anonymous: boolean;
   caption: string | null;
@@ -18,7 +19,7 @@ interface UploadRow {
   media: MediaItem[];
 }
 
-type Filter = "all" | "photos" | "albums" | "videos";
+type Filter = "all" | "ours" | "photos" | "albums" | "videos";
 
 const PAGE_SIZE = 20;
 
@@ -64,8 +65,9 @@ const Moments = () => {
     const to = from + PAGE_SIZE - 1;
     const { data, error } = await supabase
       .from("uploads")
-      .select("id, type, user_name, is_anonymous, caption, album_title, created_at, media(id, file_url, type)")
+      .select("id, type, source, user_name, is_anonymous, caption, album_title, created_at, media(id, file_url, type)")
       .eq("status", "approved")
+      .order("source", { ascending: true }) // 'couple' < 'guest'
       .order("created_at", { ascending: false })
       .range(from, to);
     if (!error && data) {
@@ -83,6 +85,7 @@ const Moments = () => {
   const filtered = useMemo(() => {
     return items.filter((it) => {
       if (filter === "all") return true;
+      if (filter === "ours") return it.source === "couple";
       if (filter === "albums") return it.type === "album";
       const hasVideo = it.media?.some((m) => m.type === "video");
       const hasPhoto = it.media?.some((m) => m.type === "photo");
@@ -140,7 +143,7 @@ const Moments = () => {
         <div className="container">
           {/* Filter bar */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-8 mb-12 border-b border-border/60 pb-1">
-            {(["all", "photos", "albums", "videos"] as Filter[]).map((f) => (
+            {(["all", "ours", "photos", "albums", "videos"] as Filter[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -148,7 +151,7 @@ const Moments = () => {
                   filter === f ? "text-foreground" : "text-foreground/50 hover:text-foreground/80"
                 }`}
               >
-                {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
+                {f === "all" ? "All" : f === "ours" ? "Ours 💍" : f.charAt(0).toUpperCase() + f.slice(1)}
                 {filter === f && (
                   <span className="absolute left-3 right-3 -bottom-px h-[2px] bg-gradient-gold rounded-full" />
                 )}
@@ -226,6 +229,15 @@ const Moments = () => {
                         <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] uppercase tracking-[0.2em] text-white" style={{ backgroundColor: "#C9A46C" }}>
                           <Layers className="w-3 h-3" />
                           Album · {it.media.length}
+                        </div>
+                      )}
+                      {it.source === "couple" && (
+                        <div
+                          className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-gold"
+                          style={{ background: "linear-gradient(135deg, #E8C786, #C9A46C)" }}
+                          title="From Emma & Funmi"
+                        >
+                          <Crown className="w-4 h-4 text-white" />
                         </div>
                       )}
                       <button

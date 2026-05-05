@@ -9,8 +9,13 @@ import {
   BookOpen,
   Clock,
   User,
+  Plus,
+  Trash2,
+  Crown,
 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import CoupleUploadModal from "@/components/wedding/moments/CoupleUploadModal";
 
 interface MediaItem {
   id: string;
@@ -20,6 +25,7 @@ interface MediaItem {
 interface UploadRow {
   id: string;
   type: "single" | "album";
+  source?: "guest" | "couple";
   user_name: string | null;
   is_anonymous: boolean;
   caption: string | null;
@@ -48,6 +54,30 @@ const AdminMoments = () => {
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState<Tab>("pending");
   const [actionId, setActionId] = useState<string | null>(null);
+  const [coupleItems, setCoupleItems] = useState<UploadRow[]>([]);
+  const [coupleOpen, setCoupleOpen] = useState(false);
+  const [previewItem, setPreviewItem] = useState<UploadRow | null>(null);
+
+  const loadCouple = async () => {
+    const { data } = await supabase
+      .from("uploads")
+      .select("id, type, user_name, is_anonymous, caption, album_title, status, created_at, media(id, file_url, type)")
+      .eq("status", "approved")
+      .eq("source", "couple" as any)
+      .order("created_at", { ascending: false });
+    if (data) setCoupleItems(data as unknown as UploadRow[]);
+  };
+
+  const deleteCouple = async (id: string) => {
+    if (!confirm("Remove this from the public gallery?")) return;
+    try {
+      await call({ action: "moderate", id, status: "rejected" });
+      setCoupleItems((prev) => prev.filter((it) => it.id !== id));
+      toast.success("Removed from gallery");
+    } catch (e: any) {
+      toast.error(e.message);
+    }
+  };
 
   const call = async (body: object) => {
     const res = await fetch(FN_URL, {
@@ -85,14 +115,18 @@ const AdminMoments = () => {
     if (password && !authed) load();
   }, []);
   useEffect(() => {
-    if (authed) load(tab);
-  }, [tab]);
+    if (authed) {
+      load(tab);
+      loadCouple();
+    }
+  }, [tab, authed]);
 
   const moderate = async (id: string, status: "approved" | "rejected") => {
     setActionId(id);
     try {
       await call({ action: "moderate", id, status });
       setItems((prev) => prev.filter((it) => it.id !== id));
+      setPreviewItem(null);
       toast.success(status === "approved" ? "✓ Approved" : "✕ Rejected");
     } catch (e: any) {
       toast.error(e.message);
@@ -198,6 +232,59 @@ const AdminMoments = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-10">
+        {/* Our Gallery */}
+        <section className="mb-12 p-6 md:p-8 rounded-3xl border border-border bg-card shadow-soft">
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2">
+                <Crown className="w-5 h-5 text-gold" />
+                <h2 className="font-serif-display text-3xl text-foreground">Our Gallery</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">
+                Photos & videos from Emma & Funmi — auto-published instantly
+              </p>
+            </div>
+            <button
+              onClick={() => setCoupleOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-foreground rounded-full uppercase tracking-[0.25em] text-xs font-medium shadow-gold hover:scale-[1.02] transition-all duration-300"
+            >
+              <Plus className="w-4 h-4" /> Add to Our Gallery
+            </button>
+          </div>
+
+          {coupleItems.length === 0 ? (
+            <p className="text-sm text-muted-foreground italic">No couple uploads yet.</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {coupleItems.map((it) => {
+                const cover = it.media?.[0];
+                if (!cover) return null;
+                return (
+                  <div key={it.id} className="group relative aspect-square rounded-xl overflow-hidden bg-muted shadow-soft">
+                    {cover.type === "video" ? (
+                      <video src={cover.file_url} className="w-full h-full object-cover" muted />
+                    ) : (
+                      <img src={cover.file_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                    )}
+                    {it.media.length > 1 && (
+                      <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-full bg-black/50 text-white text-[10px]">
+                        {it.media.length}
+                      </div>
+                    )}
+                    <button
+                      onClick={() => deleteCouple(it.id)}
+                      className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 hover:bg-rose-600 transition"
+                      aria-label="Delete"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
         {/* Tab strip */}
         <div className="flex items-center gap-1 mb-10 border-b border-border/40">
           {(Object.keys(TAB_META) as Tab[]).map((t) => (
@@ -339,6 +426,14 @@ const AdminMoments = () => {
 
                   {/* Info */}
                   <div className="p-5 flex flex-col gap-3 flex-1">
+                    {mediaCount > 4 && (
+                      <button
+                        onClick={() => setPreviewItem(it)}
+                        className="self-start text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-gold transition-colors"
+                      >
+                        View all {mediaCount} files →
+                      </button>
+                    )}
                     {it.album_title && (
                       <p className="font-serif-display text-xl text-foreground leading-tight">
                         {it.album_title}
@@ -426,6 +521,72 @@ const AdminMoments = () => {
           </div>
         )}
       </div>
+
+      <CoupleUploadModal
+        open={coupleOpen}
+        onClose={() => setCoupleOpen(false)}
+        onPublished={loadCouple}
+      />
+
+      {/* Full album preview overlay */}
+      {previewItem && (
+        <div className="fixed inset-0 z-[90] bg-background overflow-y-auto animate-fade-in-soft">
+          <div className="sticky top-0 z-10 glass border-b border-border/40 px-6 py-4 flex items-center justify-between">
+            <div className="min-w-0">
+              {previewItem.album_title && (
+                <p className="font-serif-display text-xl truncate">{previewItem.album_title}</p>
+              )}
+              {previewItem.caption && (
+                <p className="text-sm italic text-muted-foreground truncate">"{previewItem.caption}"</p>
+              )}
+            </div>
+            <button
+              onClick={() => setPreviewItem(null)}
+              className="p-2 rounded-full hover:bg-muted transition"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 py-8 pb-32">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
+              {previewItem.media.map((m) => (
+                <div key={m.id} className="mb-4 break-inside-avoid rounded-2xl overflow-hidden bg-muted shadow-soft">
+                  {m.type === "video" ? (
+                    <video src={m.file_url} className="w-full h-auto block" controls />
+                  ) : (
+                    <img src={m.file_url} alt="" loading="lazy" className="w-full h-auto block" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {previewItem.status === "pending" && (
+            <div className="fixed bottom-0 left-0 right-0 glass border-t border-border/40 px-6 py-4">
+              <div className="max-w-7xl mx-auto flex gap-3">
+                <button
+                  onClick={() => moderate(previewItem.id, "approved")}
+                  disabled={actionId === previewItem.id}
+                  className="flex-1 py-3 rounded-full bg-emerald-600/90 text-white text-xs uppercase tracking-[0.2em] hover:bg-emerald-500 transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
+                >
+                  {actionId === previewItem.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                  Approve
+                </button>
+                <button
+                  onClick={() => moderate(previewItem.id, "rejected")}
+                  disabled={actionId === previewItem.id}
+                  className="flex-1 py-3 rounded-full bg-rose-600/90 text-white text-xs uppercase tracking-[0.2em] hover:bg-rose-500 transition inline-flex items-center justify-center gap-1.5 disabled:opacity-40"
+                >
+                  {actionId === previewItem.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <X className="w-4 h-4" />}
+                  Reject
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 };
