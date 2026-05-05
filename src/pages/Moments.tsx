@@ -65,8 +65,9 @@ const Moments = () => {
     const to = from + PAGE_SIZE - 1;
     const { data, error } = await supabase
       .from("uploads")
-      .select("id, type, user_name, is_anonymous, caption, album_title, created_at, media(id, file_url, type)")
+      .select("id, type, source, user_name, is_anonymous, caption, album_title, created_at, media(id, file_url, type)")
       .eq("status", "approved")
+      .order("source", { ascending: true }) // 'couple' < 'guest'
       .order("created_at", { ascending: false })
       .range(from, to);
     if (!error && data) {
