@@ -209,7 +209,7 @@ const Moments = () => {
                             preload="metadata"
                           />
                           <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition">
-                            <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-full bg-white/90 dark:bg-white/15 flex items-center justify-center">
                               <Play className="w-6 h-6 text-foreground ml-1" />
                             </div>
                           </div>
@@ -233,7 +233,7 @@ const Moments = () => {
                           e.stopPropagation();
                           toggleLike(it.id);
                         }}
-                        className="absolute bottom-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/85 backdrop-blur text-foreground text-xs hover:scale-110 transition"
+                        className="absolute bottom-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/85 dark:bg-white/10 dark:text-foreground backdrop-blur text-foreground text-xs hover:scale-110 transition"
                         aria-label="Like"
                       >
                         <Heart
