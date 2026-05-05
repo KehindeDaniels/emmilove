@@ -232,6 +232,59 @@ const AdminMoments = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-10">
+        {/* Our Gallery */}
+        <section className="mb-12 p-6 md:p-8 rounded-3xl border border-border bg-card shadow-soft">
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2">
+                <Crown className="w-5 h-5 text-gold" />
+                <h2 className="font-serif-display text-3xl text-foreground">Our Gallery</h2>
+              </div>
+              <p className="text-sm text-muted-foreground mt-1">
+                Photos & videos from Emma & Funmi — auto-published instantly
+              </p>
+            </div>
+            <button
+              onClick={() => setCoupleOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-gold text-foreground rounded-full uppercase tracking-[0.25em] text-xs font-medium shadow-gold hover:scale-[1.02] transition-all duration-300"
+            >
+              <Plus className="w-4 h-4" /> Add to Our Gallery
+            </button>
+          </div>
+
+          {coupleItems.length === 0 ? (
+            <p className="text-sm text-muted-foreground italic">No couple uploads yet.</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {coupleItems.map((it) => {
+                const cover = it.media?.[0];
+                if (!cover) return null;
+                return (
+                  <div key={it.id} className="group relative aspect-square rounded-xl overflow-hidden bg-muted shadow-soft">
+                    {cover.type === "video" ? (
+                      <video src={cover.file_url} className="w-full h-full object-cover" muted />
+                    ) : (
+                      <img src={cover.file_url} alt="" className="w-full h-full object-cover" loading="lazy" />
+                    )}
+                    {it.media.length > 1 && (
+                      <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-full bg-black/50 text-white text-[10px]">
+                        {it.media.length}
+                      </div>
+                    )}
+                    <button
+                      onClick={() => deleteCouple(it.id)}
+                      className="absolute top-1.5 right-1.5 p-1.5 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 hover:bg-rose-600 transition"
+                      aria-label="Delete"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
         {/* Tab strip */}
         <div className="flex items-center gap-1 mb-10 border-b border-border/40">
           {(Object.keys(TAB_META) as Tab[]).map((t) => (
