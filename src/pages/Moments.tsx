@@ -10,6 +10,7 @@ import { useReveal } from "@/hooks/use-reveal";
 interface UploadRow {
   id: string;
   type: "single" | "album";
+  source?: "guest" | "couple";
   user_name: string | null;
   is_anonymous: boolean;
   caption: string | null;
@@ -18,7 +19,7 @@ interface UploadRow {
   media: MediaItem[];
 }
 
-type Filter = "all" | "photos" | "albums" | "videos";
+type Filter = "all" | "ours" | "photos" | "albums" | "videos";
 
 const PAGE_SIZE = 20;
 
